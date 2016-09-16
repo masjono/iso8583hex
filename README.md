@@ -10,7 +10,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/masjono/iso8583hex" iso8583
+	iso8583 "github.com/masjono/iso8583hex"
 )
 
 type Data struct {
