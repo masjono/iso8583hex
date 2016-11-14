@@ -177,7 +177,7 @@ func (m *Message) Load(raw []byte) (err error) {
 	fields := parseFields(m.Data)
 
 	byteNum := 16 // diubah mj jadi baca hex dulu
-	if raw[start]&0x80 == 0x80 {
+	if hexToInt(string(raw[start]))&0x80 == 0x80 {
 		// 1st bit == 1
 		m.SecondBitmap = true
 		byteNum = 32 // diubah mj jadi baca hex dulu
