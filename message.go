@@ -183,21 +183,19 @@ func (m *Message) Load(raw []byte) (err error) {
 	fields := parseFields(m.Data)
 
 	byteNum := 16 // diubah mj jadi baca hex dulu
-	if hexToInt(string(raw[start])) & 0x8 == 0x8 {
+	if hexToInt(string(raw[start]))&0x8 == 0x8 {
 		// 1st bit == 1
 		m.SecondBitmap = true
 		byteNum = 32 // diubah mj jadi baca hex dulu
 	}
 	bitByte := raw[start : start+byteNum]
 	start += byteNum
-	
+
 	// convert bitbyte dari hex ke byte
 	bitByte, err = convertHexStringToByte(string(bitByte))
-	if err != nil{
+	if err != nil {
 		return err
-	}	
-	
-	fmt.Println("byte to load:", bitByte)
+	}
 
 	for byteIndex := 0; byteIndex < byteNum/2; byteIndex++ {
 		for bitIndex := 0; bitIndex < 8; bitIndex++ {
@@ -231,57 +229,57 @@ func (m *Message) Load(raw []byte) (err error) {
 // add by mj to convert hex string representation into byte representation
 func convertHexStringToByte(hex string) ([]byte, error) {
 	var res []byte
-	
-	if len(hex) % 2 != 0{
+
+	if len(hex)%2 != 0 {
 		return res, errors.New("Error: odd length hex")
 	}
-	
+
 	bytestr := []byte(hex)
 	//loop per 2 byte
-	for i:=0 ; i < len(hex); i+=2 {
+	for i := 0; i < len(hex); i += 2 {
 		b1 := hexToInt(string(bytestr[i:i+1])) << 4
-		b2 := hexToInt(string(bytestr[i+1:i+2]))
+		b2 := hexToInt(string(bytestr[i+1 : i+2]))
 		res = append(res, byte(b1+b2))
 	}
-	
+
 	return res, nil
 }
 
 // add by mj
 func hexToInt(bs string) int {
 	switch bs {
-		case "0":
-			return 0x0
-		case "1":
-			return 0x1
-		case "2":
-			return 0x2
-		case "3":
-			return 0x3
-		case "4":
-			return 0x4
-		case "5":
-			return 0x5
-		case "6":
-			return 0x6
-		case "7":
-			return 0x7
-		case "8":
-			return 0x8
-		case "9":
-			return 0x9
-		case "A":
-			return 0xA
-		case "B":
-			return 0xB
-		case "C":
-			return 0xC
-		case "D":
-			return 0xD
-		case "E":
-			return 0xE
-		case "F":
-			return 0xF
+	case "0":
+		return 0x0
+	case "1":
+		return 0x1
+	case "2":
+		return 0x2
+	case "3":
+		return 0x3
+	case "4":
+		return 0x4
+	case "5":
+		return 0x5
+	case "6":
+		return 0x6
+	case "7":
+		return 0x7
+	case "8":
+		return 0x8
+	case "9":
+		return 0x9
+	case "A":
+		return 0xA
+	case "B":
+		return 0xB
+	case "C":
+		return 0xC
+	case "D":
+		return 0xD
+	case "E":
+		return 0xE
+	case "F":
+		return 0xF
 	}
 	return 0x0
 }
